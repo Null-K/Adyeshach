@@ -5,11 +5,14 @@ import com.ticxo.modelengine.api.animation.BlueprintAnimation
 import com.ticxo.modelengine.api.animation.handler.IStateMachineHandler
 import com.ticxo.modelengine.api.model.ActiveModel
 import com.ticxo.modelengine.api.model.ModeledEntity
+import com.ticxo.modelengine.api.nms.entity.HitboxEntity
 import com.ticxo.modelengine.core.animation.handler.PriorityHandler
 import com.ticxo.modelengine.core.animation.handler.StateMachineHandler
+import ink.ptms.adyeshach.core.Adyeshach
 import ink.ptms.adyeshach.core.entity.EntityInstance
 import ink.ptms.adyeshach.core.entity.ModelEngine
 import ink.ptms.adyeshach.core.entity.ModelEngineOptions
+import org.bukkit.entity.Entity
 import taboolib.common.platform.function.warning
 import taboolib.common.util.orNull
 
@@ -165,5 +168,9 @@ internal fun ModelEngine.createModel() {
 
 internal fun ModelEngine.getDummy(): EntityModeled? {
     this as EntityInstance
-    return getTag("ModelEngine:EntityModeled")!! as? EntityModeled
+    return getTag("ModelEngine:EntityModeled") as? EntityModeled
+}
+
+internal fun Entity.asHitboxEntity(): HitboxEntity? {
+    return Adyeshach.api().getMinecraftAPI().getHelper().toMinecraft(this) as? HitboxEntity?
 }

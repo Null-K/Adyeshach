@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    id("io.izzel.taboolib") version "2.0.19" apply false
+    id("io.izzel.taboolib") version "2.0.22" apply false
     id("org.jetbrains.kotlin.jvm") version "1.8.22" apply false
 }
 
@@ -18,9 +18,10 @@ subprojects {
             install(Bukkit, BukkitUI, BukkitNavigation, BukkitUtil, BukkitHook)
             install(BukkitNMSUtil)
             install(MinecraftEffect, MinecraftChat)
-            // repoTabooLib = project.repositories.mavenLocal().url.toString()
+
+            install(BukkitNMSDataSerializer)
         }
-        version { taboolib = "6.2.2" }
+        version { taboolib = "6.2.3-20d868d" }
     }
     repositories {
         mavenLocal()

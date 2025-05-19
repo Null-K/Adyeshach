@@ -67,7 +67,7 @@ class DefaultAdyeshachEntityTypeRegistry : AdyeshachEntityTypeRegistry {
             info(
                 """
                     代理类已生成，用时 $cost 毫秒。
-                    Proxy classes has been generated, cost $cost ms.
+                    Proxy classes generated in $cost ms.
                 """.t()
             )
         }

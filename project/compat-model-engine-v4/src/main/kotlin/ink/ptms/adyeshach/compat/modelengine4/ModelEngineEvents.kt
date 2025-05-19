@@ -7,12 +7,17 @@ import ink.ptms.adyeshach.core.Adyeshach
 import ink.ptms.adyeshach.core.entity.ModelEngine
 import ink.ptms.adyeshach.core.event.AdyeshachEntityDamageEvent
 import ink.ptms.adyeshach.core.event.AdyeshachEntityInteractEvent
+import org.bukkit.entity.Player
+import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.util.Vector
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.registerBukkitListener
 import taboolib.common.platform.function.submit
+import taboolib.platform.util.attacker
+import taboolib.platform.util.isMainhand
 
 internal object ModelEngineEvents {
 
@@ -55,6 +60,19 @@ internal object ModelEngineEvents {
                         AdyeshachEntityInteractEvent(entityModeled.entity, e.player, isMainHand, clickedPos).call()
                     }
                 }
+            }
+            // 交互事件（SubHitbox）
+            registerBukkitListener(PlayerInteractAtEntityEvent::class.java) { e ->
+                val hitboxEntity = e.rightClicked.asHitboxEntity() ?: return@registerBukkitListener
+                val entityModeled = hitboxEntity.bone.activeModel.modeledEntity.base as? EntityModeled ?: return@registerBukkitListener
+                AdyeshachEntityInteractEvent(entityModeled.entity, e.player, e.isMainhand(), e.clickedPosition).call()
+            }
+            // 伤害事件（SubHitbox）
+            registerBukkitListener(EntityDamageByEntityEvent::class.java) { e ->
+                val player = e.attacker as? Player ?: return@registerBukkitListener
+                val hitboxEntity = e.entity.asHitboxEntity() ?: return@registerBukkitListener
+                val entityModeled = hitboxEntity.bone.activeModel.modeledEntity.base as? EntityModeled ?: return@registerBukkitListener
+                AdyeshachEntityDamageEvent(entityModeled.entity, player).call()
             }
         }
     }

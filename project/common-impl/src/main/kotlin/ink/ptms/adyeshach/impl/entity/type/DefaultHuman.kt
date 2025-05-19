@@ -65,6 +65,7 @@ abstract class DefaultHuman(entityTypes: EntityTypes) : DefaultEntityLiving(enti
     override fun visible(viewer: Player, visible: Boolean): Boolean {
         return if (visible) {
             prepareSpawn(viewer) {
+                viewPlayers.visible += viewer.name
                 // 创建玩家信息
                 addPlayerInfo(viewer)
                 // 创建客户端对应表
@@ -90,6 +91,7 @@ abstract class DefaultHuman(entityTypes: EntityTypes) : DefaultEntityLiving(enti
             }
         } else {
             prepareDestroy(viewer) {
+                viewPlayers.visible -= viewer.name
                 // 移除玩家信息
                 removePlayerInfo(viewer)
                 // 销毁实体
